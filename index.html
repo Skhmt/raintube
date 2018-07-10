@@ -23,7 +23,7 @@
 		}
 	</style>
 </head>
-<body onload="makeRain();">
+<body>
 	<img id="bg" src="" class="overlay hidden">
 	<iframe id="yt" src="" class="hidden" allow="autoplay; encrypted-media"></iframe>
 
@@ -35,13 +35,24 @@
 		// probably won't work in non-chrome/firefox
 		const search = new URLSearchParams(location.search);
 
-		let bgSrc = 'rememberme.jpg';
 		if (search.has('bg')) {
-			bgSrc = decodeURIComponent(search.get('bg'));
+			const bgURL = decodeURIComponent(search.get('bg'));
+
+			const xhr = new XMLHttpRequest();
+			xhr.open("GET", bgURL);
+			xhr.responseType = "blob";
+			xhr.onload = function(e) {
+				$bg.onload = makeRain;
+				$bg.src = URL.createObjectURL(this.response);
+				$bg.classList.remove('hidden');
+			};
+			xhr.send();
 		}
-		$bg.src = bgSrc;
-		$bg.crossOrigin = "Anonymous"
-		$bg.classList.remove('hidden');
+		else {
+			$bg.onload = makeRain;
+			$bg.src = 'rememberme.jpg';
+			$bg.classList.remove('hidden');
+		}
 
 		let ytID = 'd1AdnyxpC7I';
 		if (search.has('yt')) {
@@ -53,20 +64,28 @@
 		$yt.classList.remove('hidden');
 
 		function makeRain() {
-			let rain = new RainyDay({
+			// https://github.com/maroslaw/rainyday.js
+			new RainyDay({
 				image: $bg,
 				blur: 10,
-				// sound: 'none',
 				enableCollisions: true,
 				enableSizeChange: true,
 				fps: 30,
-				// gravityAngle: Math.PI/1.6,
-				// gravityAngleVariance: 0,
 				gravityThreshold: 1,
 			});
-			// rain.trail = rain.TRAIL_SMUDGE; // doesn't look that good
+			// let rain = new RainyDay({
+			// 	image: $bg,
+			// 	blur: 10,
+			// 	sound: 'none',
+			// 	enableCollisions: true,
+			// 	enableSizeChange: true,
+			// 	fps: 30,
+			// 	gravityAngle: Math.PI/1.6,
+			// 	gravityAngleVariance: 0,
+			// 	gravityThreshold: 1,
+			// });
 			// rain.rain([
-				// [1,5,5], // min drop size, max drop size, number of drops per tick
+			// 	[1,5,5], // min drop size, max drop size, number of drops per tick
 			// ]); // speed of the animation, higher is slower?
 		}
 
