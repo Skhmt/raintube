@@ -73,25 +73,11 @@
 				enableCollisions: true,
 				enableSizeChange: true,
 				fps: 30,
-				gravityThreshold: 1,
+				gravityThreshold: 3,
 			});
 			rain.rain([
-				[1,3,3],
+				[5,5,1],
 			]);
-			// let rain = new RainyDay({
-			// 	image: $bg,
-			// 	blur: 10,
-			// 	sound: 'none',
-			// 	enableCollisions: true,
-			// 	enableSizeChange: true,
-			// 	fps: 30,
-			// 	gravityAngle: Math.PI/1.6,
-			// 	gravityAngleVariance: 0,
-			// 	gravityThreshold: 1,
-			// });
-			// rain.rain([
-			// 	[1,5,5], // min drop size, max drop size, number of drops per tick
-			// ]); // speed of the animation, higher is slower?
 		}
 
 		// from xAmp (https://github.com/Skhmt/xAmp/)
