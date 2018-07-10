@@ -1,9 +1,38 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
 <head>
-  <title>RainTube edit</title>
+	<title>RainTube edit</title>
+	<style>
+	div {
+		margin: 10px;
+	}
+	</style>
 </head>
 <body>
+	<h1>RainTube edit</h1>
+	<div>
+		<strong>Background URL: </strong>
+		<input type="text" id="background">
+	</div>
+	<div>
+		<strong>YouTube URL: </strong>
+		<input type="text" id="youtube">
+	</div>
+	<div>
+		<button id="submit">Go</button>
+	</div>
+	<script>
+		const $bg = document.getElementById('background');
+		const $yt = document.getElementById('youtube');
+		const $submit = document.getElementById('submit');
 
+		$submit.onclick = x => {
+			let url = 'https://skhmt.github.io/raintube/?';
+			if ($bg.value) url += 'bg=' + encodeURIComponent($bg.value);
+			if ($yt.value) url += '&yt=' + encodeURIComponent($yt.value);
+
+			location.assign(url);
+		};
+	</script>
 </body>
 </html>
