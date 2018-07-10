@@ -42,7 +42,7 @@
 		$bg.src = bgSrc;
 		$bg.classList.remove('hidden');
 
-		let ytID = 'EAYfJckSEN0';
+		let ytID = 'd1AdnyxpC7I';
 		if (search.has('yt')) {
 			const rawYT = search.get('yt');
 			if (rawYT.length === 11) ytID = rawYT;
@@ -73,20 +73,20 @@
 		function sanitizeYT(url) {
 			// youtube.com/attribution_link?a=JZ6nOJ4SvBc&u=/watch%3Fv%3D[id]%26feature%3Dem-share_video_user
 			if (url.includes('u=')) {
-				const queries = url.split('?')[1].split('&')
+				const queries = url.split('?')[1].split('&');
 				for (let i = 0; i < queries.length; i++) {
-					const query = queries[i].split('=')
-					if (query[0] == 'u') return decodeURIComponent(query[1]).split('v=')[1].substring(0,11)
+					const query = queries[i].split('=');
+					if (query[0] == 'u') return decodeURIComponent(query[1]).split('v=')[1].substring(0,11);
 				}
 			}
 			// youtube.com/watch?v=[id]&t=1m1s, attribution_link continued
-			else if (url.includes('v=')) return url.split('v=')[1].substring(0,11)
+			else if (url.includes('v=')) return url.split('v=')[1].substring(0,11);
 			// youtu.be/[id]?t=1m1s, youtube.com/v/[id], youtube.com/embed/[id]?autoplay=1
 			else {
-				const splitURL = url.split('/')
-				const output = splitURL[splitURL.length-1].split('?')[0]
-				if (output.length == 11) return output
-				return false
+				const splitURL = url.split('/');
+				const output = splitURL[splitURL.length-1].split('?')[0];
+				if (output.length == 11) return output;
+				return false;
 			}
 		}
 	</script>
