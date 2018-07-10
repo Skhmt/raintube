@@ -3,8 +3,8 @@ Show a rainy foggy window and listen to some music
 
 ## examples
 
-1. `https://skhmt.github.io/raintube/`
-2. `https://skhmt.github.io/raintube/?bg=https%3A%2F%2Fi.imgur.com%2Fo04OSvB.jpg&yt=lasWefVUCsI`
+1. [default futuresynth](https://skhmt.github.io/raintube/)
+2. [rain over a lake](https://skhmt.github.io/raintube/?bg=https%3A%2F%2Fi.imgur.com%2Fo04OSvB.jpg&yt=lasWefVUCsI)
 
 ## usage
 
