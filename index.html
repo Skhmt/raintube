@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Rainy Cyberscape</title>
+	<script src="rainyday.min.js"></script>
+	<style>
+		body {
+			overflow: hidden;
+			height: 100vh;
+			width: 100vw;
+			margin: 0;
+			padding: 0;
+			background: black;
+		}
+
+		.overlay {
+			width: 100%;
+			height: 100%;
+		}
+
+		.hidden {
+			display: none;
+		}
+	</style>
+</head>
+<body onload="makeRain();">
+	<img id="bg" src="" class="overlay hidden">
+	<iframe id="yt" src="" class="hidden" allow="autoplay; encrypted-media"></iframe>
+
+	<script>
+		// aliases
+		const $bg = document.getElementById('bg');
+		const $yt = document.getElementById('yt');
+
+		// probably won't work in non-chrome/firefox
+		const search = new URLSearchParams(location.search);
+
+		let bgSrc = 'rememberme.jpg';
+		if (search.has('bg')) {
+			bgSrc = decodeURIComponent(search.get('bg'));
+		}
+		$bg.src = bgSrc;
+		$bg.classList.remove('hidden');
+
+		let ytID = 'EAYfJckSEN0';
+		if (search.has('yt')) {
+			const rawYT = search.get('yt');
+			if (rawYT.length === 11) ytID = rawYT;
+			else ytID = sanitizeYT(decodeURIComponent(rawYT));
+		}
+		$yt.src = `https://www.youtube.com/embed/${ytID}?autoplay=1`;
+		$yt.classList.remove('hidden');
+
+		function makeRain() {
+			let rain = new RainyDay({
+				image: $bg,
+				blur: 10,
+				// sound: 'none',
+				enableCollisions: true,
+				enableSizeChange: true,
+				fps: 30,
+				// gravityAngle: Math.PI/1.6,
+				// gravityAngleVariance: 0,
+				gravityThreshold: 1,
+			});
+			// rain.trail = rain.TRAIL_SMUDGE; // doesn't look that good
+			// rain.rain([
+				// [1,5,5], // min drop size, max drop size, number of drops per tick
+			// ]); // speed of the animation, higher is slower?
+		}
+
+		// from xAmp (https://github.com/Skhmt/xAmp/)
+		function sanitizeYT(url) {
+			// youtube.com/attribution_link?a=JZ6nOJ4SvBc&u=/watch%3Fv%3D[id]%26feature%3Dem-share_video_user
+			if (url.includes('u=')) {
+				const queries = url.split('?')[1].split('&')
+				for (let i = 0; i < queries.length; i++) {
+					const query = queries[i].split('=')
+					if (query[0] == 'u') return decodeURIComponent(query[1]).split('v=')[1].substring(0,11)
+				}
+			}
+			// youtube.com/watch?v=[id]&t=1m1s, attribution_link continued
+			else if (url.includes('v=')) return url.split('v=')[1].substring(0,11)
+			// youtu.be/[id]?t=1m1s, youtube.com/v/[id], youtube.com/embed/[id]?autoplay=1
+			else {
+				const splitURL = url.split('/')
+				const output = splitURL[splitURL.length-1].split('?')[0]
+				if (output.length == 11) return output
+				return false
+			}
+		}
+	</script>
+</body>
+</html>
